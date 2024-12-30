@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+struct Customer
+{
+    int id;
+    char name[50];
+    int itemsPurchased;
+    float itemPrices[50];
+    float totalBill;
+};
+void calculateTotalBill(struct Customer *customer)
+{
+    customer->totalBill = 0;
+    for (int i = 0; i < customer->itemsPurchased; i++)
+    {
+        customer->totalBill += customer->itemPrices[i];
+    }
+}
+void inputCustomerDetails(struct Customer customers[], int customerCount)
+{
+    for (int i = 0; i < customerCount; i++) 
+    {
+        printf("Enter details for customer %d\n", i + 1);
+        printf("Enter Customer ID: ");
+        scanf("%d", &customers[i].id);
+        printf("Enter Customer Name: ");
+        scanf("%s", customers[i].name);
+        printf("Enter Number of Items Purchased: ");
+        scanf("%d", &customers[i].itemsPurchased);
+        for (int j = 0; j < customers[i].itemsPurchased; j++)
+        {
+            printf("Enter price of item %d: ", j + 1);
+            scanf("%f", &customers[i].itemPrices[j]);
+        }
+        calculateTotalBill(&customers[i]);
+    }
+}
+void displayBillingDetails(struct Customer customers[], int customerCount)
+{
+    printf("\nCustomer Billing Records:\n");
+    for (int i = 0; i < customerCount; i++) {
+        printf("\nCustomer ID: %d\n", customers[i].id);
+        printf("Name: %s\n", customers[i].name);
+        printf("Items Purchased: %d\n", customers[i].itemsPurchased);
+        printf("Item Prices: ");
+        for (int j = 0; j < customers[i].itemsPurchased; j++)
+        {
+            printf("%.2f ", customers[i].itemPrices[j]);
+        }
+        printf("\nTotal Bill: %.2f\n", customers[i].totalBill);
+    }
+}
+int main() 
+{
+    struct Customer customers[100];
+    int customerCount;
+    printf("Enter number of customers: ");
+    scanf("%d", &customerCount);
+    inputCustomerDetails(customers, customerCount);
+    displayBillingDetails(customers, customerCount);
+    return 0;
+}
